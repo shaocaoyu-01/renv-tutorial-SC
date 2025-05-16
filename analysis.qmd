@@ -22,3 +22,59 @@ You can add options to executable code like this
 #| echo: false
 2 * 2
 ```
+
+
+
+```{R}
+library(tidyverse)
+library(palmerpenguins)
+penguins_summary <- penguins %>%
+  group_by(species) %>%
+  summarise(
+    n                = n(),                                  # 样本量
+    mean_flipper_mm  = mean(flipper_length_mm, na.rm = TRUE),# 翼长均值
+    sd_flipper_mm    = sd(flipper_length_mm, na.rm = TRUE),  # 翼长标准差
+    mean_body_mass_g = mean(body_mass_g, na.rm = TRUE),      # 体重均值
+    sd_body_mass_g   = sd(body_mass_g, na.rm = TRUE)         # 体重标准差
+  )
+
+# 查看结果
+print(penguins_summary)
+
+summary(penguins)
+
+
+penguins %>%
+  ggplot(aes(x = flipper_length_mm, y = body_mass_g, color = species)) +
+  geom_point(size = 2, alpha = 0.7) +
+  labs(
+    title = "Flipper Length vs Body Mass",
+    x     = "Flipper Length (mm)",
+    y     = "Body Mass (g)",
+    color = "Species"
+  ) +
+  theme_minimal()
+```
+
+---
+title: "Penguin Analysis"
+format: html
+---
+
+As you can see in Figure @fig-scatter, there’s a clear positive relationship between flipper length and body mass.
+
+```{r fig-scatter}
+#| fig-cap: "Scatterplot of flipper length vs. body mass"
+#| fig-alt: "Points showing flipper length vs. body mass, colored by species"
+library(tidyverse)
+library(palmerpenguins)
+
+penguins %>%
+  ggplot(aes(x = flipper_length_mm, y = body_mass_g, color = species)) +
+  geom_point(alpha = 0.7) +
+  labs(x = "Flipper Length (mm)", y = "Body Mass (g)") +
+  theme_minimal()
+```
+
+
+
